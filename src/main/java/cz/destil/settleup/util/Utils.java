@@ -31,7 +31,7 @@ public class Utils {
 		String[] parts = text.trim().split(" ");
 		List<Long> longs = new ArrayList<Long>();
 		for (int i = 0; i < parts.length; i++) {
-			if (!TextUtils.isEmpty(parts[i])) {
+			if (!parts[i].isEmpty()) {
 				longs.add(Long.parseLong(parts[i]));
 			}
 		}
@@ -42,7 +42,7 @@ public class Utils {
 		String[] parts = text.trim().split(" ");
 		List<String> strings = new ArrayList<String>();
 		for (int i = 0; i < parts.length; i++) {
-			if (!TextUtils.isEmpty(parts[i])) {
+			if (!parts[i].isEmpty()) {
 				strings.add(parts[i]);
 			}
 		}
@@ -53,7 +53,7 @@ public class Utils {
 		String[] parts = text.trim().split(" ");
 		List<Double> doubles = new ArrayList<Double>();
 		for (int i = 0; i < parts.length; i++) {
-			if (!TextUtils.isEmpty(parts[i])) {
+			if (!parts[i].isEmpty()) {
 				doubles.add(Double.parseDouble(parts[i]));
 			}
 		}
@@ -64,7 +64,7 @@ public class Utils {
         String[] parts = text.trim().split(" ");
         List<BigDecimal> decimals = new ArrayList<BigDecimal>();
         for (int i = 0; i < parts.length; i++) {
-            if (!TextUtils.isEmpty(parts[i])) {
+            if (!parts[i].isEmpty()) {
                 decimals.add(new BigDecimal(parts[i]));
             }
         }
@@ -93,7 +93,7 @@ public class Utils {
 			joined += item + ", ";
 		}
 		joined = joined.trim();
-		if (TextUtils.isEmpty(joined)) {
+		if (joined.isEmpty()) {
 			return "";
 		}
 		return joined.substring(0, joined.length() - 1);

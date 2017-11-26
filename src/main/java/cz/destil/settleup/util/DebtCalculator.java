@@ -1,6 +1,6 @@
 package cz.destil.settleup.util;
 
-import android.content.Context;
+//import android.content.Context;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import cz.destil.settleup.R;
-import cz.destil.settleup.data.Preferences;
-import cz.destil.settleup.data.Preferences.PrefType;
-import cz.destil.settleup.data.model.Currency;
-import cz.destil.settleup.data.model.Currency.Currencies;
+//import cz.destil.settleup.R;
+//import cz.destil.settleup.data.Preferences;
+//import cz.destil.settleup.data.Preferences.PrefType;
+//import cz.destil.settleup.data.model.Currency;
+//import cz.destil.settleup.data.model.Currency.Currencies;
 import cz.destil.settleup.data.model.Member;
 import cz.destil.settleup.data.model.Member.Members;
 import cz.destil.settleup.data.model.Payment;
@@ -102,7 +102,7 @@ public class DebtCalculator {
     /**
      * Calculates how much each member paid and spent from the payments.
      */
-    public static synchronized BigDecimal updateBalances(Context c, List<Member> members, List<Payment> payments,
+    public static synchronized BigDecimal updateBalances(List<Member> members, List<Payment> payments,
                                                          String currency) {
         if (members.size() == 0) {
             return BigDecimal.ZERO;
@@ -129,8 +129,9 @@ public class DebtCalculator {
                 continue;
             }
 
-            boolean settlement = (payment.transfer || payment.purpose.equals(c.getString(R.string.debt_settlement)) || payment.purpose
-                    .equals(c.getString(R.string.paypal_settlement)));
+            boolean settlement = true;
+//            boolean settlement = (payment.transfer || payment.purpose.equals(c.getString(R.string.debt_settlement)) || payment.purpose
+//                    .equals(c.getString(R.string.paypal_settlement)));
 
             // update paid & gave value
             int missingMembers = 1;
@@ -138,10 +139,10 @@ public class DebtCalculator {
                 long whoPaid = payment.whoPaid.get(i);
                 // hack when member is missing from payments
                 if (idsToMembers.get(whoPaid) == null) {
-                    Member newMember = new Member(whoPaid, c.getString(R.string.missing_member) + " " + missingMembers,
-                            "", groupId, null);
-                    members.add(newMember);
-                    idsToMembers.put(whoPaid, newMember);
+//                    Member newMember = new Member(whoPaid, c.getString(R.string.missing_member) + " " + missingMembers,
+//                            "", groupId, null);
+//                    members.add(newMember);
+//                    idsToMembers.put(whoPaid, newMember);
                     missingMembers++;
                 }
                 if (settlement) {
@@ -175,10 +176,10 @@ public class DebtCalculator {
             for (long id : payment.forWho) {
                 // hack when member is missing from payments
                 if (idsToMembers.get(id) == null) {
-                    Member newMember = new Member(id, c.getString(R.string.missing_member) + " " + missingMembers, "",
-                            groupId, null);
-                    members.add(newMember);
-                    idsToMembers.put(id, newMember);
+//                    Member newMember = new Member(id, c.getString(R.string.missing_member) + " " + missingMembers, "",
+//                            groupId, null);
+//                    members.add(newMember);
+//                    idsToMembers.put(id, newMember);
                     missingMembers++;
                 }
                 BigDecimal weightedAmount = amountForOnePerson.multiply(new BigDecimal(payment.weights.get(i)));
@@ -260,47 +261,46 @@ public class DebtCalculator {
      *
      * @return if it's possible
      */
-    public static synchronized List<String> getConvertedCurrencies(List<Payment> payments, Context c) {
-        // reset
-        for (Payment payment : payments) {
-            payment.converted = false;
-        }
-        String singleCurrency = Preferences.getString(PrefType.SINGLE_CURRENCY, c);
-        if (!singleCurrency.equals(Preferences.MULTIPLE_CURRENCIES)) {
-            for (Payment payment : payments) {
-                if (payment.getCurrency().equals(singleCurrency)) {
-                    // already converted
-                    payment.convertedAmounts = payment.amounts;
-                } else {
-                    Currency currency = Currencies.getByCode(payment.getCurrency());
-                    if (currency == null || currency.exchangeRate <= 0 || !currency.exchangeCode.equals(singleCurrency)) {
-                        // not enough exchange rates, aborting
-                        for (Payment payment2 : payments) {
-                            payment2.converted = false;
-                        }
-                        return Currencies.getDistinctCurrencies(payments);
-                    }
-                    payment.convertedAmounts = new ArrayList<BigDecimal>();
-                    for (BigDecimal amount : payment.amounts) {
-                        payment.convertedAmounts.add(BigDecimals.safeDivide(amount, new BigDecimal(currency.exchangeRate)));
-                    }
-                }
-                payment.convertedCurrency = singleCurrency;
-                payment.converted = true;
-            }
-            // return only single currency
-            List<String> justOne = new ArrayList<String>();
-            justOne.add(singleCurrency);
-            return justOne;
-        }
-        return Currencies.getDistinctCurrencies(payments);
-    }
+//    public static synchronized List<String> getConvertedCurrencies(List<Payment> payments, Context c) {
+//        // reset
+//        for (Payment payment : payments) {
+//            payment.converted = false;
+//        }
+//        String singleCurrency = Preferences.getString(PrefType.SINGLE_CURRENCY, c);
+//        if (!singleCurrency.equals(Preferences.MULTIPLE_CURRENCIES)) {
+//            for (Payment payment : payments) {
+//                if (payment.getCurrency().equals(singleCurrency)) {
+//                    // already converted
+//                    payment.convertedAmounts = payment.amounts;
+//                } else {
+//                    Currency currency = Currencies.getByCode(payment.getCurrency());
+//                    if (currency == null || currency.exchangeRate <= 0 || !currency.exchangeCode.equals(singleCurrency)) {
+//                        // not enough exchange rates, aborting
+//                        for (Payment payment2 : payments) {
+//                            payment2.converted = false;
+//                        }
+//                        return Currencies.getDistinctCurrencies(payments);
+//                    }
+//                    payment.convertedAmounts = new ArrayList<BigDecimal>();
+//                    for (BigDecimal amount : payment.amounts) {
+//                        payment.convertedAmounts.add(BigDecimals.safeDivide(amount, new BigDecimal(currency.exchangeRate)));
+//                    }
+//                }
+//                payment.convertedCurrency = singleCurrency;
+//                payment.converted = true;
+//            }
+//            // return only single currency
+//            List<String> justOne = new ArrayList<String>();
+//            justOne.add(singleCurrency);
+//            return justOne;
+//        }
+//        return Currencies.getDistinctCurrencies(payments);
+//    }
 
     /**
      * Generates transactions which doesn't transfer any debt between people.
      */
-    public synchronized static List<Debt> simpleDebts(List<Payment> payments, List<Member> members, String currency,
-                                                      Context c) {
+    public synchronized static List<Debt> simpleDebts(List<Payment> payments, List<Member> members, String currency) {
         List<Debt> transactions = new ArrayList<Debt>();
         // traverse all payments and reverse them into debt
         for (Payment payment : payments) {
@@ -310,7 +310,7 @@ public class DebtCalculator {
             // calculate paid, spent for just one payment
             List<Payment> singlePayment = new ArrayList<Payment>();
             singlePayment.add(payment);
-            updateBalances(c, members, singlePayment, currency);
+            updateBalances( members, singlePayment, currency);
             // generate transactions using basicDebts
             List<Debt> debts = calculate(members, BigDecimal.ZERO, currency);
             // merge debts
@@ -371,7 +371,6 @@ public class DebtCalculator {
             this.currency = currency;
         }
 
-        @Override
         public int compareTo(Debt another) {
             return this.from.name.compareTo(another.from.name);
         }

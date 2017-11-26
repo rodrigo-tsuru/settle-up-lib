@@ -84,7 +84,6 @@ public class Member implements Comparable<Member> {
 				+ getBalance();
 	}
 
-	@Override
 	public int compareTo(Member anotherMember) {
 		return getBalanceInCalculation().compareTo(anotherMember.getBalanceInCalculation());
 	}

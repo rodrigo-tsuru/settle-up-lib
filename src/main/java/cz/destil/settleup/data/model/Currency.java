@@ -27,13 +27,13 @@ public class Currency {
 		this.exchangeCode = exchangeCode;
 	}
 
-	public String getSymbol() {
-		return Currencies.getCurrencySymbol(code);
-	}
-
-	public String getName() {
-		return Currencies.getCurrencyName(code);
-	}
+//	public String getSymbol() {
+//		return Currencies.getCurrencySymbol(code);
+//	}
+//
+//	public String getName() {
+//		return Currencies.getCurrencyName(code);
+//	}
 	
 	@Override
 	public String toString() {
